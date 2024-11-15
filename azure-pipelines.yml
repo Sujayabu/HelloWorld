@@ -10,9 +10,9 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-   group: credentials
-#  acrName: 'TechLab01SAACRHelloWorld'  # Replace with your Azure Container Registry name
-#  dockerHubImage: 'sujayabu/myhelloworldimage:v1'  # Replace with your Docker Hub image details
+   group: 'credentials'
+   acrName: 'TechLab01SAACRHelloWorld'  # Replace with your Azure Container Registry name
+   dockerHubImage: 'sujayabu/myhelloworldimage:v1'  # Replace with your Docker Hub image details
    acrImage: '$(acrName).azurecr.io/myhelloworldimage:v1'  # Replace <your-image-name> and <tag>
 
 steps:

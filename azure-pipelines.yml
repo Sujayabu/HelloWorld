@@ -21,8 +21,8 @@ variables:
   acrName: 'TechLab01SAACRHelloWorld'  # Replace with your Azure Container Registry name
   dockerHubImage: 'sujayabu/myhelloworldimage:v1'  # Replace with your Docker Hub image details
   acrImage: '$(acrName).azurecr.io/myhelloworldimage:v1'  # Replace <your-image-name> and <tag>
-  acrUsername: $(acrUsername)
-  acrPassword: $(acrPassword)
+
+- group: credentials
 
 steps:
 - script: echo Hello, world!

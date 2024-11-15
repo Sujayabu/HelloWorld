@@ -38,9 +38,10 @@ steps:
     azureSubscription: $(azureSubscriptionEndpoint)
     scriptType: 'pscore'
     scriptLocation: 'inlineScript'
-    inlineScript: 
-      $publicip = (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
-      az acr network-rule add --name $('containerRegistryName') --ip-addresss $publicip
+    inlineScript: |
+      $publicip = (Invoke-WebRequest -Uri "http://ifconfig.me/ip").Content
+      az acr network-rule add --name $(containerRegistryName) --ip-address $publicip
+
 - task: AzureCLI@2
   displayName: 'Log in to Azure Container Registry (ACR)'
   inputs:

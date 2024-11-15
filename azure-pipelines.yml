@@ -14,6 +14,8 @@ variables:
    acrName: 'techlab01saacrhelloworld'  # Replace with your Azure Container Registry name
    dockerHubImage: 'sujayabu/myhelloworldimage:v1'  # Replace with your Docker Hub image details
    acrImage: '$(acrName).azurecr.io/myhelloworldimage:v1'  # Replace <your-image-name> and <tag>
+   azureSubscriptionEndpoint: 'LabTech01SVCHW'
+   containerRegistryName: 'techlab01saacrhelloworld.azurecr.io'
 
 steps:
 - script: echo Hello, world!
@@ -31,6 +33,14 @@ steps:
 #    containerRegistry: '<dockerhub-service-connection>'  # Create a service connection for Docker Hub if your image is private
 
 # Log in to Azure Container Registry (ACR)
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureSubscriptionEndpoint)
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: 
+      $publicip = (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
+      az acr network-rule add --name $('containerRegistryName') --ip-addresss $publicip
 - task: AzureCLI@2
   displayName: 'Log in to Azure Container Registry (ACR)'
   inputs:

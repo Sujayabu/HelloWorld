@@ -9,6 +9,14 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+resources:
+  repositories:
+  - repository: self
+    type: github
+    name: Sujayabu/HelloWorld  # Your GitHub repository name
+    ref: refs/heads/main       # Replace 'main' with your branch name
+    connection: github.com_Sujayabu  # The name of your GitHub service connection
+
 variables:
   acrName: 'TechLab01SAACRHelloWorld'  # Replace with your Azure Container Registry name
   dockerHubImage: 'sujayabu/myhelloworldimage:v1'  # Replace with your Docker Hub image details

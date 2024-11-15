@@ -59,5 +59,8 @@ steps:
 # Push the image to ACR
 - script: |
     echo "Pushing image to ACR..."
+    echo "Manually logging in to Docker..."
+    echo $(acrPassword) | docker login $(acrName).azurecr.io --username $(acrUsername) --password-stdin
+    echo "Pushing image..."
     docker push $(acrImage) || exit 1
   displayName: 'Push Image to ACR'

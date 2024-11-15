@@ -9,6 +9,11 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  acrName: 'TechLab01SAACRHelloWorld'  # Replace with your Azure Container Registry name
+  dockerHubImage: 'sujayabu/myhelloworldimage:v1'  # Replace with your Docker Hub image details
+  acrImage: '$(acrName).azurecr.io/myhelloworldimage:v1'  # Replace <your-image-name> and <tag>
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
@@ -17,3 +22,38 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+# Log in to Docker Hub (if required)
+#- task: Docker@2
+#  displayName: 'Login to Docker Hub'
+#  inputs:
+#    containerRegistry: '<dockerhub-service-connection>'  # Create a service connection for Docker Hub if your image is private
+
+# Log in to Azure Container Registry (ACR)
+- task: AzureCLI@2
+  displayName: 'Log in to Azure Container Registry (ACR)'
+  inputs:
+    azureSubscription: 'LabTech01SVCHW'  # Azure service connection name
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Logging into Azure Container Registry..."
+      az acr login --name $(acrName)
+
+# Pull the Docker image from Docker Hub
+- script: |
+    echo "Pulling image from Docker Hub..."
+    docker pull $(dockerHubImage)
+  displayName: 'Pull Image from Docker Hub'
+  
+# Tag the image for ACR
+- script: |
+    echo "Tagging image for ACR..."
+    docker tag $(dockerHubImage) $(acrImage)
+  displayName: 'Tag Image for ACR'
+  
+# Push the image to ACR
+- script: |
+    echo "Pushing image to ACR..."
+    docker push $(acrImage)
+  displayName: 'Push Image to ACR'

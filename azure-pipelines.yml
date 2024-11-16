@@ -35,18 +35,10 @@ steps:
   displayName: 'Log in to Azure Container Registry (ACR)'
   inputs:
     azureSubscription: 'LabTech01SVCHW'  # Azure service connection name
-    scriptType: 'pscore'
+    scriptType: 'pscore'  # Using PowerShell Core
     scriptLocation: 'inlineScript'
     inlineScript: |
-     echo "Logging in to ACR..."
- #    echo $(acrPassword) | docker login $(acrName).azurecr.io --username $(acrUsername) --password-stdin
-     az acr login -n $(containerRegistryName)
-     if [ $? -eq 0 ]; then
-       echo "Login successful to ACR"
-     else
-       echo "Login failed to ACR"
-       exit 1
-     fi
+      az acr login --name $(containerRegistryName)
 
 # Step 3: Pull the Docker image from Docker Hub
 - script: |
